@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "todo-comment",
+    "slug": "todo-comment",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "todo-comment"
+}
