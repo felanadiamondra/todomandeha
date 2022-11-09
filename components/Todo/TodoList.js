@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, 
          SafeAreaView , TouchableOpacity, 
-         Modal, FlatList, TextInput } from 'react-native'
+         Modal, FlatList, TextInput, KeyboardAvoidingView } from 'react-native'
 import { useState } from 'react'
 import Todo from './Todo';
 const DATA = [
@@ -90,7 +90,14 @@ function TodoList(){
                     </View>
                     
             </Modal>
-
+            <KeyboardAvoidingView style={styles.writeTodoWrapper}>
+                <TextInput style={styles.input} placeholder={'Doing ...'}/>
+                <TouchableOpacity>
+                    <View style={styles.addWrapper}>
+                        <Text style={styles.addTodo}>+</Text>
+                    </View>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
         </SafeAreaView>
         
     )
@@ -147,6 +154,32 @@ const styles = StyleSheet.create({
         paddingHorizontal : 100,
         alignItems : 'center',
         marginTop : 20
+    },
+    writeTodoWrapper : {
+        position : 'absolute',
+        bottom : 60,
+        width : '100%',
+        flexDirection : 'row',
+        justifyContent : 'space-around',
+        alignItems : 'center'
+    },
+    input:{
+        paddingHorizontal : 15,
+        paddingVertical : 15,
+        backgroundColor : '#fff',
+        borderRadius : '#c0c0c0',
+        borderWidth : 1,
+        width : 250
+    },
+    addWrapper : {
+        width : 60,
+        height : 60,
+        backgroundColor : '#fff',
+        borderRadius : 60,
+        justifyContent : 'center',
+        alignItems : 'center',
+        borderColor : '#c0c0c0',
+        borderWidth : 1
     }
 
 })
