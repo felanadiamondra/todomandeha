@@ -2,7 +2,8 @@ import { StyleSheet, View, Text,
          SafeAreaView , TouchableOpacity, 
          Modal, FlatList, TextInput, KeyboardAvoidingView } from 'react-native'
 import { useState } from 'react'
-import Todo from './Todo';
+import AddTodo from './AddTodo';
+
 const DATA = [
     { id : 1 , item: 'Item one'},
     { id : 2, item: 'item two'},
@@ -17,7 +18,6 @@ function TodoList(){
     const [inputText , setInputText] = useState();
     const [editItem , setEditItem] = useState();
     const [taskItems , setTaskItem] = useState([]);
-    const [todo , setTodo] = useState();
 
 
     const renderItem = ({item , index}) =>{
@@ -54,7 +54,18 @@ function TodoList(){
     }
 
     const handleAddTask = () =>{
-        console.log(todo);
+        //setTaskItem(...taskItems , todo);
+        setData([...data , todo]);
+        setTodo(null);
+    }
+
+    const handleAddTodo = (todo) =>{
+        setData([todo, ...data]);
+        setTodo("");
+    }
+
+    const handleSubmit = (todo) =>{
+        setData([...data , todo]);
     }
 
     return(
@@ -73,7 +84,7 @@ function TodoList(){
             </View>
         </View> */}
             <FlatList data={data}
-                      keyExtractor={(item) => item.id.toString()}
+                      // keyExtractor={(item) => item.id.toString()}
                       renderItem={renderItem} 
                       extraData={isRender}/>
             <Modal animationType='fade'
@@ -82,7 +93,7 @@ function TodoList(){
                     <View style={styles.modalView}>
                         <Text style={styles.text}>  Change Text : </Text>
                         <TextInput style={styles.textInput}
-                                   onChangeText={(text) => setInputText(text)}
+                                onChangeText={(text) => setInputText(text)}
                                 defaultValue={inputText}
                                 editable={true}
                                 multiline={false}
@@ -95,14 +106,7 @@ function TodoList(){
                         </TouchableOpacity>
                     </View>
             </Modal>
-            <KeyboardAvoidingView style={styles.writeTodoWrapper}>
-                <TextInput style={styles.input} placeholder={'Doing ...'} onChangeText={text => setTodo(text)}/>
-                <TouchableOpacity onPress={() => handleAddTask()}>
-                    <View style={styles.addWrapper}>
-                        <Text style={styles.addTodo}>+</Text>
-                    </View>
-                </TouchableOpacity>
-            </KeyboardAvoidingView>
+            <AddTodo onSubmit={handleSubmit}/>
         </SafeAreaView>
         
     )
@@ -159,34 +163,7 @@ const styles = StyleSheet.create({
         paddingHorizontal : 100,
         alignItems : 'center',
         marginTop : 20
-    },
-    writeTodoWrapper : {
-        position : 'absolute',
-        bottom : 60,
-        width : '100%',
-        flexDirection : 'row',
-        justifyContent : 'space-around',
-        alignItems : 'center'
-    },
-    input:{
-        paddingHorizontal : 15,
-        paddingVertical : 15,
-        backgroundColor : '#fff',
-        borderRadius : '#c0c0c0',
-        borderWidth : 1,
-        width : 250
-    },
-    addWrapper : {
-        width : 60,
-        height : 60,
-        backgroundColor : '#fff',
-        borderRadius : 60,
-        justifyContent : 'center',
-        alignItems : 'center',
-        borderColor : '#c0c0c0',
-        borderWidth : 1
     }
-
 })
 
 export default TodoList;
