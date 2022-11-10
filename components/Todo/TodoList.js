@@ -16,6 +16,8 @@ function TodoList(){
     const [isModalVisible , setIsModalVisible] = useState(false);
     const [inputText , setInputText] = useState();
     const [editItem , setEditItem] = useState();
+    const [taskItems , setTaskItem] = useState([]);
+    const [todo , setTodo] = useState();
 
 
     const renderItem = ({item , index}) =>{
@@ -49,6 +51,10 @@ function TodoList(){
         setIsModalVisible(true);
         setInputText(item.item);
         setEditItem(item.id);
+    }
+
+    const handleAddTask = () =>{
+        console.log(todo);
     }
 
     return(
@@ -88,11 +94,10 @@ function TodoList(){
 
                         </TouchableOpacity>
                     </View>
-                    
             </Modal>
             <KeyboardAvoidingView style={styles.writeTodoWrapper}>
-                <TextInput style={styles.input} placeholder={'Doing ...'}/>
-                <TouchableOpacity>
+                <TextInput style={styles.input} placeholder={'Doing ...'} onChangeText={text => setTodo(text)}/>
+                <TouchableOpacity onPress={() => handleAddTask()}>
                     <View style={styles.addWrapper}>
                         <Text style={styles.addTodo}>+</Text>
                     </View>
