@@ -8,8 +8,6 @@ function ReviewComment({navigation}){
             <Text>{navigation.getParam('name')}</Text>
             <Text>{navigation.getParam('email')}</Text>
             <Text>{navigation.getParam('body')}</Text>
-            <Button title="Edit"/> 
-            <Button title="Delete"/>
         </View>
     )
 }

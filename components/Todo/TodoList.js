@@ -4,7 +4,6 @@ import { StyleSheet, View, Text,
 import { useState } from 'react'
 import AddTodo from './AddTodo';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import SelectDropdown from 'react-native-select-dropdown';
 
 const DATA = [
     { id : 1 , item: 'Todo'},
@@ -20,9 +19,7 @@ function TodoList(){
     const [editItem , setEditItem] = useState();
     const [taskItems , setTaskItem] = useState([]);
     const [selected , setSelected] = useState("");
-
-    const priority = ['High' , 'Medium', 'Low'];
-
+    const [searchItem, setSearchItem] = useState("");
 
     const renderItem = ({item , index}) =>{
         return(
@@ -88,9 +85,8 @@ function TodoList(){
 
             </View>
         </View> */}
-            <SelectDropdown data={priority} onSelect={(selectedItem, index)=>{
-                console.log(selectedItem, index);
-            }}/>
+            <TextInput value=''/>
+            
             <FlatList data={data}
                       contentContainerStyle={{padding : 20, paddingBottom:100}}
                       // keyExtractor={(item) => item.id.toString()}
