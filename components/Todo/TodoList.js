@@ -3,13 +3,13 @@ import { StyleSheet, View, Text,
          Modal, FlatList, TextInput, KeyboardAvoidingView } from 'react-native'
 import { useState } from 'react'
 import AddTodo from './AddTodo';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const DATA = [
-    { id : 1 , item: 'Item one'},
-    { id : 2, item: 'item two'},
-    { id : 3 , item : 'item three'},
-    { id : 4 , item : 'item four'}
+    { id : 1 , item: 'Todo'},
+    { id : 2, item: 'Another todo'}
 ]
+
 function TodoList(){
 
     const [data , setData] = useState(DATA)
@@ -26,6 +26,9 @@ function TodoList(){
             style={styles.item}
             onPress={() => onPressItem(item)}>
                 <Text style={styles.text}>{item.item}</Text>
+                <TouchableOpacity onPress={() => deleteTodo(item.id)}>
+                    <Icon name='delete' size={25} color='red'/>
+                </TouchableOpacity>
             </TouchableOpacity>
         )
     }
@@ -53,19 +56,13 @@ function TodoList(){
         setEditItem(item.id);
     }
 
-    const handleAddTask = () =>{
-        //setTaskItem(...taskItems , todo);
-        setData([...data , todo]);
-        setTodo(null);
-    }
-
-    const handleAddTodo = (todo) =>{
-        setData([todo, ...data]);
-        setTodo("");
-    }
-
     const handleSubmit = (todo) =>{
         setData([...data , todo]);
+    }
+
+    const deleteTodo = (todoId) => {
+        const newTodo = data.filter(item => item.id != todoId);
+        setData(newTodo);
     }
 
     return(

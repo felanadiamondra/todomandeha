@@ -6,11 +6,11 @@ function AddTodo(props){
     const [todo , setTodo] = useState();
 
     const handleAddTask = () =>{
-        console.log(todo);
         props.onSubmit({
             id: shortid.generate(),
             item : todo
         });
+        setTodo(null);
     }
 
     return (
