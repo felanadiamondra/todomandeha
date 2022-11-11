@@ -1,4 +1,6 @@
-import { View, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native'
+import { View, KeyboardAvoidingView, 
+    Text, TextInput, TouchableOpacity,
+     StyleSheet, Modal} from 'react-native'
 import shortid from 'shortid';
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -6,8 +8,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function AddTodo(props){
     const [todo , setTodo] = useState();
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleAddTask = () =>{
+        setIsModalVisible(true);
         props.onSubmit({
             id: shortid.generate(),
             item : todo
@@ -16,15 +20,19 @@ function AddTodo(props){
     }
 
     return (
-        <KeyboardAvoidingView style={styles.writeTodoWrapper}>
-            <TextInput style={styles.input} defaultValue={todo} placeholder={'Doing ...'} onChangeText={text => setTodo(text)}/>
-            <TouchableOpacity onPress={() => handleAddTask()}>
-                <View style={styles.addWrapper}>
-                    {/* <Text style={styles.addTodo}>+</Text> */}
-                    <Icon name='add' size={30}/>
-                </View>
-            </TouchableOpacity>
-        </KeyboardAvoidingView>
+        <Modal animationType='fade'
+        visible={isModalVisible}
+        onRequestClose={() => setIsModalVisible(false)}>
+            <KeyboardAvoidingView style={styles.writeTodoWrapper}>
+                <TextInput style={styles.input} defaultValue={todo} placeholder={'Doing ...'} onChangeText={text => setTodo(text)}/>
+                <TouchableOpacity onPress={() => handleAddTask()}>
+                    <View style={styles.addWrapper}>
+                        {/* <Text style={styles.addTodo}>+</Text> */}
+                        <Icon name='add' size={30}/>
+                    </View>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+        </Modal>
     )
 }
 

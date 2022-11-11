@@ -4,6 +4,7 @@ import { StyleSheet, View, Text,
 import { useState } from 'react'
 import AddTodo from './AddTodo';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const DATA = [
     { id : 1 , item: 'Todo'},
@@ -18,6 +19,9 @@ function TodoList(){
     const [inputText , setInputText] = useState();
     const [editItem , setEditItem] = useState();
     const [taskItems , setTaskItem] = useState([]);
+    const [selected , setSelected] = useState("");
+
+    const priority = ['High' , 'Medium', 'Low'];
 
 
     const renderItem = ({item , index}) =>{
@@ -28,7 +32,6 @@ function TodoList(){
                     style={styles.item}
                     onPress={() => onPressItem(item)}>
                         <Text style={styles.text}>{item.item}</Text>
-                        
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity onPress={() => deleteTodo(item.id)}>
@@ -85,11 +88,15 @@ function TodoList(){
 
             </View>
         </View> */}
+            <SelectDropdown data={priority} onSelect={(selectedItem, index)=>{
+                console.log(selectedItem, index);
+            }}/>
             <FlatList data={data}
                       contentContainerStyle={{padding : 20, paddingBottom:100}}
                       // keyExtractor={(item) => item.id.toString()}
                       renderItem={renderItem} 
                       extraData={isRender}/>
+            
             <Modal animationType='fade'
                    visible={isModalVisible}
                    onRequestClose={() => setIsModalVisible(false)}>
