@@ -22,14 +22,19 @@ function TodoList(){
 
     const renderItem = ({item , index}) =>{
         return(
-            <TouchableOpacity
-            style={styles.item}
-            onPress={() => onPressItem(item)}>
-                <Text style={styles.text}>{item.item}</Text>
+            <View style={styles.listItem}>
+                <View style={{flex : 1}}>
+                    <TouchableOpacity
+                    style={styles.item}
+                    onPress={() => onPressItem(item)}>
+                        <Text style={styles.text}>{item.item}</Text>
+                        
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity onPress={() => deleteTodo(item.id)}>
                     <Icon name='delete' size={25} color='red'/>
                 </TouchableOpacity>
-            </TouchableOpacity>
+            </View>
         )
     }
 
@@ -66,7 +71,7 @@ function TodoList(){
     }
 
     return(
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             {/* <View style={styles.container}>
             <View style={styles.todoWrapper}>
                 <Text style={styles.header}> Todo </Text>
@@ -81,6 +86,7 @@ function TodoList(){
             </View>
         </View> */}
             <FlatList data={data}
+                      contentContainerStyle={{padding : 20, paddingBottom:100}}
                       // keyExtractor={(item) => item.id.toString()}
                       renderItem={renderItem} 
                       extraData={isRender}/>
@@ -99,11 +105,12 @@ function TodoList(){
                           onPress={() => onPressSaveEdit()}
                           style={styles.touchableSave}>
                               <Text style={styles.text}>Save</Text>
-
                         </TouchableOpacity>
                     </View>
             </Modal>
-            <AddTodo onSubmit={handleSubmit}/>
+            <View style={styles.footer}>
+                <AddTodo onSubmit={handleSubmit}/>
+            </View>
         </SafeAreaView>
         
     )
@@ -114,26 +121,33 @@ const styles = StyleSheet.create({
         flex : 1,
         backgroundColor : '#E8EAED'
     },
+
     todoWrapper :{
         paddingHorizontal : 20,
         paddingTop : 80
     },
-    header :{
-        fontSize : 24,
-        fontWeight : 'bold'
-    },
-    todoitem : {
 
-    },
     footer :{
         position : 'absolute',
-        bottom : 0
+        bottom : 0,
+        width : '100%',
+        flexDirection : 'row',
+        alignItems : 'center',
+        paddingHorizontal: 20
     },
 
-    item: {
-        borderBottomWidth : 1,
-        borderBottomColor : 'grey',
-        alignItems : 'flex-start'
+    // item: {
+    //     borderBottomWidth : 1,
+    //     borderBottomColor : 'grey',
+    //     alignItems : 'flex-start'
+    // },
+    listItem : {
+        padding : 20,
+        backgroundColor : '#fff',
+        flexDirection : 'row',
+        elevation : 12,
+        borderRadius : 7,
+        marginVertical : 10
     },
     text : {
         marginVertical : 30,

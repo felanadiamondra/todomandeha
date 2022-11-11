@@ -1,6 +1,8 @@
 import { View, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native'
 import shortid from 'shortid';
 import { useState } from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 function AddTodo(props){
     const [todo , setTodo] = useState();
@@ -10,7 +12,7 @@ function AddTodo(props){
             id: shortid.generate(),
             item : todo
         });
-        setTodo(null);
+        setTodo("");
     }
 
     return (
@@ -18,7 +20,8 @@ function AddTodo(props){
             <TextInput style={styles.input} defaultValue={todo} placeholder={'Doing ...'} onChangeText={text => setTodo(text)}/>
             <TouchableOpacity onPress={() => handleAddTask()}>
                 <View style={styles.addWrapper}>
-                    <Text style={styles.addTodo}>+</Text>
+                    {/* <Text style={styles.addTodo}>+</Text> */}
+                    <Icon name='add' size={30}/>
                 </View>
             </TouchableOpacity>
         </KeyboardAvoidingView>
@@ -50,7 +53,8 @@ const styles = StyleSheet.create({
         justifyContent : 'center',
         alignItems : 'center',
         borderColor : '#c0c0c0',
-        borderWidth : 1
+        borderWidth : 1,
+        elevation : 40
     }
 
 })
