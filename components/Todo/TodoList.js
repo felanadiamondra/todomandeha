@@ -1,16 +1,17 @@
 import { StyleSheet, View, Text, 
          SafeAreaView , TouchableOpacity, 
          Modal, FlatList, TextInput, KeyboardAvoidingView } from 'react-native'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AddTodo from './AddTodo';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const DATA = [
     { id : 1 , item: 'Todo'},
     { id : 2, item: 'Another todo'}
 ]
 
-function TodoList(){
+function TodoList({navigation}){
 
     const [data , setData] = useState(DATA)
     const [isRender , setIsRender] = useState(false);
@@ -18,8 +19,8 @@ function TodoList(){
     const [inputText , setInputText] = useState();
     const [editItem , setEditItem] = useState();
     const [taskItems , setTaskItem] = useState([]);
-    const [selected , setSelected] = useState("");
-    const [searchItem, setSearchItem] = useState("");
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
 
     const renderItem = ({item , index}) =>{
         return(
@@ -70,24 +71,39 @@ function TodoList(){
         setData(newTodo);
     }
 
+    const searchFilterFunction = (text) => {
+        if (text) {
+          const newData = data.filter(function (item) {
+            const itemData = item.item
+              ? item.item.toUpperCase()
+              : ''.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+          });
+          setFilteredDataSource(newData);
+          setSearch(text);
+        } else {
+          setFilteredDataSource(data);
+          setSearch(text);
+        }
+      };
+
+      useEffect(() => {
+        setFilteredDataSource(data);           
+      }, []);
+    
+
     return(
         <SafeAreaView style={styles.container}>
-            {/* <View style={styles.container}>
-            <View style={styles.todoWrapper}>
-                <Text style={styles.header}> Todo </Text>
-                <View style={styles.todoitem}>
-                    <Todo text='Todo 1'/>
-                    <Todo text='Todo 2'/>
-                </View>
-            </View>
-
-            <View style={styles.footer}>
-
-            </View>
-        </View> */}
-            <TextInput value=''/>
+            <TextInput
+                style={styles.textInputStyle}
+                onChangeText={(text) => searchFilterFunction(text)}
+                value={search}
+                underlineColorAndroid="transparent"
+                placeholder="Search Here"
+                />
             
-            <FlatList data={data}
+            <FlatList data={filteredDataSource}
                       contentContainerStyle={{padding : 20, paddingBottom:100}}
                       // keyExtractor={(item) => item.id.toString()}
                       renderItem={renderItem} 
@@ -139,11 +155,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
 
-    // item: {
-    //     borderBottomWidth : 1,
-    //     borderBottomColor : 'grey',
-    //     alignItems : 'flex-start'
-    // },
     listItem : {
         padding : 20,
         backgroundColor : '#fff',
@@ -177,6 +188,14 @@ const styles = StyleSheet.create({
         paddingHorizontal : 100,
         alignItems : 'center',
         marginTop : 20
+    },
+    textInputStyle : {
+        height: 40,
+        borderWidth: 1,
+        paddingLeft: 20,
+        margin: 5,
+        borderColor: '#009688',
+        backgroundColor: '#FFFFFF',
     }
 })
 
