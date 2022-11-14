@@ -3,38 +3,28 @@ import { StyleSheet, View, Text,
          Modal, FlatList, TextInput, KeyboardAvoidingView } from 'react-native'
 import { useState, useEffect } from 'react'
 import AddTodo from './AddTodo';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation } from '@react-navigation/native';
+import Todo from './Todo';
+
 
 const DATA = [
     { id : 1 , item: 'Todo'},
     { id : 2, item: 'Another todo'}
 ]
 
-function TodoList({navigation}){
+function TodoList(){
 
     const [data , setData] = useState(DATA)
     const [isRender , setIsRender] = useState(false);
     const [isModalVisible , setIsModalVisible] = useState(false);
     const [inputText , setInputText] = useState();
     const [editItem , setEditItem] = useState();
-    const [taskItems , setTaskItem] = useState([]);
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
 
     const renderItem = ({item , index}) =>{
         return(
             <View style={styles.listItem}>
-                <View style={{flex : 1}}>
-                    <TouchableOpacity
-                    style={styles.item}
-                    onPress={() => onPressItem(item)}>
-                        <Text style={styles.text}>{item.item}</Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity onPress={() => deleteTodo(item.id)}>
-                    <Icon name='delete' size={25} color='red'/>
-                </TouchableOpacity>
+                <Todo onDelete={deleteTodo} item={item} onPress={onPressItem}/>
             </View>
         )
     }
@@ -63,12 +53,14 @@ function TodoList({navigation}){
     }
 
     const handleSubmit = (todo) =>{
-        setData([...data , todo]);
+        // setData([...data, todo]);
+        setFilteredDataSource([...data , todo]);
     }
 
     const deleteTodo = (todoId) => {
         const newTodo = data.filter(item => item.id != todoId);
         setData(newTodo);
+        setFilteredDataSource(data);
     }
 
     const searchFilterFunction = (text) => {
@@ -86,13 +78,12 @@ function TodoList({navigation}){
           setFilteredDataSource(data);
           setSearch(text);
         }
-      };
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         setFilteredDataSource(data);           
-      }, []);
+    }, []);
     
-
     return(
         <SafeAreaView style={styles.container}>
             <TextInput
@@ -113,7 +104,6 @@ function TodoList({navigation}){
                    visible={isModalVisible}
                    onRequestClose={() => setIsModalVisible(false)}>
                     <View style={styles.modalView}>
-                        <Text style={styles.text}>  Change Text : </Text>
                         <TextInput style={styles.textInput}
                                 onChangeText={(text) => setInputText(text)}
                                 defaultValue={inputText}
@@ -162,12 +152,6 @@ const styles = StyleSheet.create({
         elevation : 12,
         borderRadius : 7,
         marginVertical : 10
-    },
-    text : {
-        marginVertical : 30,
-        fontSize : 25,
-        fontWeight : 'bold',
-        marginLeft : 10
     },
     textInput: {
         width : '90%',

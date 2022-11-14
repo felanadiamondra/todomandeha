@@ -1,51 +1,39 @@
-import { View, StyleSheet, Text } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-function Todo(props){
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+function Todo(props) {
+
+    const deleteTodo = (todoId) => {
+        props.onDelete(todoId);
+    }
+
+    const onPressTodo = (item) => {
+        props.onPress(item);
+    }
+
     return (
-        <View style={styles.item}>
-            <View style={styles.itemLeft}>
-                <View style={styles.square}></View>
+        <>
+            <View style={{ flex: 1 }}>
+                <TouchableOpacity
+                    style={styles.item}
+                    onPress={() => onPressTodo(props.item)}>
+                    <Text style={styles.text}>{props.item.item}</Text>
+                </TouchableOpacity>
             </View>
-            <Text>{props.text}</Text>
-        </View>
+            <TouchableOpacity onPress={() => deleteTodo(props.item.id)}>
+                <Icon name='delete' size={25} color='red' />
+            </TouchableOpacity>
+        </>
     )
-}  
+}
 
 const styles = StyleSheet.create({
-    item : {
-        backgroundColor : '#fff',
-        padding : 15,
-        borderRadius : 10,
-        flexDirection : 'row',
-        alignItems : 'center' , 
-        justifyContent : 'space-between',
-        marginBottom : 20
+    text: {
+        marginVertical: 30,
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginLeft: 10
     },
-
-    itemLeft : {
-        flexDirection : 'row',
-        alignItem : 'center',
-        flexWrap : 'wrap'
-    },
-
-    square : {
-        width : 24,
-        height : 24,
-        backgroundColor : '#55BCF6',     
-        opacity : 0.4,
-        borderRadius : 5, 
-        marginRight : 15
-    } , 
-    itemText : {
-        maxWidth : '80%'
-    } , 
-    circular : {
-        width: 12,
-        height : 12,
-        borderColor : '#55BCF6',
-        borderWidth : 2,
-        borderRadius : 5 
-    }
 })
 
 export default Todo;

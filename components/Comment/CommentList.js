@@ -1,6 +1,5 @@
-import { StyleSheet, Text, FlatList, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, FlatList, View, TouchableOpacity, ScrollView } from 'react-native'
 import {useState, useEffect} from 'react'
-import { ScrollView } from 'react-native-gesture-handler'
 import Comment from './Comment';
 
 function CommentList ({navigation}){
@@ -84,12 +83,13 @@ function CommentList ({navigation}){
         <View>
             {
                 isLoading ? <Text> Loading ... </Text> :
-                <FlatList data={comments}
-                            renderItem={({item}) => (
-                                <TouchableOpacity onPress={() => navigation.navigate('ReviewComment', item)}>
-                                    <Comment coms={item}/>
-                                </TouchableOpacity>
-                            )}>
+                <FlatList 
+                    data={comments}
+                    renderItem={({item}) => (
+                        <TouchableOpacity onPress={() => navigation.navigate('ReviewComment', item)}>
+                            <Comment coms={item}/>
+                        </TouchableOpacity>
+                    )}>
                 </FlatList>
             }
         </View>
