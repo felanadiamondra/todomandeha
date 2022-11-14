@@ -24,7 +24,7 @@ function TodoList(){
     const renderItem = ({item , index}) =>{
         return(
             <View style={styles.listItem}>
-                <Todo onDelete={deleteTodo} item={item} onPress={onPressItem}/>
+                <Todo onDelete={() => deleteTodo(item.id)} item={item} onPress={onPressItem}/>
             </View>
         )
     }
@@ -53,14 +53,14 @@ function TodoList(){
     }
 
     const handleSubmit = (todo) =>{
-        // setData([...data, todo]);
-        setFilteredDataSource([...data , todo]);
+        setData([...data, todo]);
+        // setFilteredDataSource([...data , todo]);
     }
 
     const deleteTodo = (todoId) => {
         const newTodo = data.filter(item => item.id != todoId);
         setData(newTodo);
-        setFilteredDataSource(data);
+        // setFilteredDataSource(data);
     }
 
     const searchFilterFunction = (text) => {
@@ -88,13 +88,13 @@ function TodoList(){
         <SafeAreaView style={styles.container}>
             <TextInput
                 style={styles.textInputStyle}
-                onChangeText={(text) => searchFilterFunction(text)}
+                onChangeText={(text) => setSearch(text)}
                 value={search}
                 underlineColorAndroid="transparent"
                 placeholder="Search Here"
                 />
             
-            <FlatList data={filteredDataSource}
+            <FlatList data={data}
                       contentContainerStyle={{padding : 20, paddingBottom:100}}
                       // keyExtractor={(item) => item.id.toString()}
                       renderItem={renderItem} 

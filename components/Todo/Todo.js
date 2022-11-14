@@ -2,11 +2,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function Todo(props) {
-
-    const deleteTodo = (todoId) => {
-        props.onDelete(todoId);
-    }
-
+    
     const onPressTodo = (item) => {
         props.onPress(item);
     }
@@ -20,7 +16,7 @@ function Todo(props) {
                     <Text style={styles.text}>{props.item.item}</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => deleteTodo(props.item.id)}>
+            <TouchableOpacity onPress={() => props.onDelete()}>
                 <Icon name='delete' size={25} color='red' />
             </TouchableOpacity>
         </>
