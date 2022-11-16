@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, 
          SafeAreaView , TouchableOpacity, 
-         Modal, FlatList, TextInput, KeyboardAvoidingView } from 'react-native'
+         Modal, FlatList, TextInput } from 'react-native'
 import { useState, useEffect } from 'react'
 import AddTodo from './AddTodo';
 import Todo from './Todo';
@@ -53,8 +53,9 @@ function TodoList(){
     }
 
     const handleSubmit = (todo) =>{
-        // setData([...data, todo]);
-        setFilteredDataSource([...data , todo]);
+        setData([...data, todo]);
+        setFilteredDataSource(data);
+        // setFilteredDataSource([...data , todo]);
     }
 
     const deleteTodo = (todoId) => {
