@@ -5,7 +5,7 @@ function EditTodo (){
     const [isModalVisible , setIsModalVisible] = useState(false);
     const [inputText , setInputText] = useState();
     const [editItem , setEditItem] = useState();
-    const [taskItems , setTaskItem] = useState([]);
+
     const handleEditItem = () =>{
         const newData = data.map(item => {
             if(item.id == editItem){
