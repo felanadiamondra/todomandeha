@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, 
          SafeAreaView , TouchableOpacity, 
-         Modal, FlatList, TextInput } from 'react-native'
+         Modal, FlatList, TextInput, ScrollView } from 'react-native'
 import { useState, useEffect } from 'react'
 import AddTodo from './AddTodo';
 import Todo from './Todo';
@@ -19,7 +19,7 @@ function TodoList(){
     const [inputText , setInputText] = useState();
     const [editItem , setEditItem] = useState();
     const [search, setSearch] = useState('');
-    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [filteredTodo, setFilteredTodo] = useState(data);
 
     const renderItem = ({item , index}) =>{
         return(
@@ -54,17 +54,13 @@ function TodoList(){
 
     const handleSubmit = (todo) =>{
         setData([...data, todo]);
-<<<<<<< HEAD
-        setFilteredDataSource(data);
-=======
->>>>>>> 4c6df8b63644555d51028c31547ef5f0238bb0c0
-        // setFilteredDataSource([...data , todo]);
+        // setFilteredTodo([...data , todo]);
     }
 
     const deleteTodo = (todoId) => {
         const newTodo = data.filter(item => item.id != todoId);
         setData(newTodo);
-        // setFilteredDataSource(data);
+        // setFilteredTodo(data);
     }
 
     const searchFilterFunction = (text) => {
@@ -76,16 +72,16 @@ function TodoList(){
             const textData = text.toUpperCase();
             return itemData.indexOf(textData) > -1;
           });
-          setFilteredDataSource(newData);
+          setFilteredTodo(newData);
           setSearch(text);
         } else {
-          setFilteredDataSource(data);
+          setFilteredTodo(data);
           setSearch(text);
         }
     };
 
     useEffect(() => {
-        setFilteredDataSource(data);           
+        setFilteredTodo(data);           
     }, []);
     
     return(
@@ -97,13 +93,25 @@ function TodoList(){
                 underlineColorAndroid="transparent"
                 placeholder="Search Here"
                 />
+           
+            {/* <FlatList data={data}
+                    contentContainerStyle={{padding : 20, paddingBottom:100}}
+                    // keyExtractor={(item) => item.id.toString()}
+                    renderItem={renderItem} 
+                    extraData={isRender}/> */}
+             {/* <View style={styles.listItem}> */}
+             <View style={{padding : 20, paddingBottom:100}}>
+                <ScrollView>
+                    {data.map(item =>{
+                        return (
+                            <Todo onDelete={() => deleteTodo(item.id)} item={item} onPress={onPressItem}/>                       
+                        );
+                    })}
+                </ScrollView>
+             </View>
             
-            <FlatList data={data}
-                      contentContainerStyle={{padding : 20, paddingBottom:100}}
-                      // keyExtractor={(item) => item.id.toString()}
-                      renderItem={renderItem} 
-                      extraData={isRender}/>
-            
+             {/* </View> */}
+             
             <Modal animationType='fade'
                    visible={isModalVisible}
                    onRequestClose={() => setIsModalVisible(false)}>
@@ -150,7 +158,9 @@ const styles = StyleSheet.create({
     },
 
     listItem : {
-        padding : 20,
+        // padding : 20,
+        paddingTop : 15,
+        paddingHorizontal: 15,
         backgroundColor : '#fff',
         flexDirection : 'row',
         elevation : 12,
